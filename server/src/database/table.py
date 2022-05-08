@@ -3,6 +3,8 @@ from datetime import datetime
 from sqlalchemy import TIMESTAMP, Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 
+from database.db import BanHeimDB
+
 Base = declarative_base()
 
 
@@ -79,3 +81,16 @@ class ReportedTable(Base):
         self.machine = machine
         self.timestamp = timestamp
         self.reason = reason
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "ip": self.ip,
+            "reporter": self.machine,
+            "reason": self.reason,
+            "timestamp": self.timestamp,
+        }
+
+
+# db = BanHeimDB("sqlite:///test.db")
+# Base.metadata.create_all(db.get_engine())
